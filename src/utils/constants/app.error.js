@@ -7,7 +7,7 @@ class AppError extends Error {
             status = 500,
             code = 'INTERNAL_SERVER_ERROR',
             details = null,
-        }
+        } = {}
     ) {
         super(message);
 
