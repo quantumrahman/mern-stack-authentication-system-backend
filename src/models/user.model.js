@@ -1,5 +1,4 @@
 // import module ------------------------------------------->
-import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 
 // create schema ------------------------------------------->
@@ -25,7 +24,7 @@ const userSchema = new mongoose.Schema(
             required: [true, 'Password is required!'],
             minlength: [8, 'Password must be at least 8 characters.'],
             maxlength: [64, 'Password must not be more than 64 characters.'],
-            select: false
+            select: false,
         },
         isVerified: {
             type: Boolean,
