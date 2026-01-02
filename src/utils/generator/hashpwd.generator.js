@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt';
 const hashPwdGenerator = async (pwd) => {
     try {
         if (typeof pwd !== 'string') {
-            throw new Error('Password must a string format!');
+            throw new Error('Password must be a string format!');
         }
 
         const normalizedPwd = pwd.trim();
