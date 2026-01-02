@@ -49,33 +49,6 @@ const userSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-// hashing password hook ----------------------------------->
-userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return;
-    this.password = await bcrypt.hash(this.password, 10);
-});
-
-userSchema.pre('findOneAndUpdate', async function () {
-    const updateUser = this.getUpdate();
-
-    const userPwd = updateUser?.password || updateUser?.$set?.password;
-
-    if (!userPwd) return;
-
-    const hashedPwd = await bcrypt.hash(userPwd, 10);
-
-    if (updateUser.password) {
-        updateUser.password = hashedPwd;
-    } else {
-        updateUser.$set.password = hashedPwd;
-    }
-});
-
-// compare password hook ----------------------------------->
-userSchema.methods.compareHashPwd = async function (password) {
-    return await bcrypt.compare(password, this.password);
-};
-
 // create model -------------------------------------------->
 const user = mongoose.models.user || mongoose.model('user', userSchema);
 
