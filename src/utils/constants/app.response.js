@@ -4,7 +4,7 @@ class AppResponse {
         message,
         {
             success = true,
-            status = 201,
+            status = 0,
             code = 'SUCCESS',
             data = {},
             details = null,
