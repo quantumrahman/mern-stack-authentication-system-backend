@@ -4,7 +4,7 @@ import cors from 'cors';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import authRouter from './routers/auth.router.js';
-import errorMiddleware from './middlewares/validator.middleware.js';
+import errorMiddleware from './middlewares/error.middleware.js';
 
 // express app --------------------------------------------->
 const app = express();
