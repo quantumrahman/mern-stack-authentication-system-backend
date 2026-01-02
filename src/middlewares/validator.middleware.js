@@ -10,7 +10,7 @@ const validatorMiddleware = (schema) => async (req, res, next) => {
 
         return next(
             new AppError('Validation Error.', {
-                success: false,
+                success: result.success,
                 status: 400,
                 code: 'VALIDATION_ERROR',
                 details: Object.entries(fieldErrors).map(
