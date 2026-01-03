@@ -27,7 +27,7 @@ const startServer = async () => {
             server.close(async () => {
                 console.log(chalk.white('Server is closed...'));
 
-                await mongoose.connect.close();
+                await mongoose.connection.close();
                 console.log(chalk.white('Mongoose connection is closed...'));
 
                 process.exit(0);
