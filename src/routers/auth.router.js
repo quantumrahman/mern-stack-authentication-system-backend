@@ -8,7 +8,7 @@ import validationMiddleware from '../middlewares/validator.middleware.js';
 import {
     signUpSchema,
     signInSchema,
-} from '../utils/validators/validator.schema.js';
+} from '../validators/validator.schema.js';
 
 // express router ------------------------------------------>
 const router = express.Router();
