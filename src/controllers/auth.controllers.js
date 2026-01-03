@@ -139,3 +139,25 @@ export const signInController = async (req, res, next) => {
         return next(error);
     }
 };
+
+// sign-out controller ------------------------------------->
+export const signOutController = async (req, res, next) => {
+    try {
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+            path: '/',
+        });
+
+        return res.status(200).json(
+            new AppResponse('User logout successfully.', {
+                success: true,
+                status: 200,
+                code: 'LOGOUT_SUCCESSFULLY',
+            })
+        );
+    } catch (error) {
+        return next(error);
+    }
+};
