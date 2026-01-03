@@ -12,7 +12,7 @@ const hashPwdGenerator = async (pwd) => {
 
         const normalizedPwd = pwd.trim();
 
-        if (normalizedPwd === '') {
+        if (!normalizedPwd) {
             throw new Error('Password must not be empty!');
         }
 
