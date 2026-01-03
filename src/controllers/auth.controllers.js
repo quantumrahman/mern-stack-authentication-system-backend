@@ -2,10 +2,12 @@
 import User from '../models/user.model.js';
 import AppError from '../utils/constants/app.error.js';
 import AppResponse from '../utils/constants/app.response.js';
+import generateOtp from '../utils/generator/otp.generator.js';
 import generateJwtToken from '../utils/generator/token.generator.js';
 import passwordCompare from '../utils/functions/compare.pwd.func.js';
 import nameFormatter from '../utils/functions/name.formatter.func.js';
 import generateHashPwd from '../utils/generator/hashpwd.generator.js';
+import generateHashOtp from '../utils/generator/hashotp.generator.js';
 
 // sign-up controller -------------------------------------->
 export const signUpController = async (req, res, next) => {
@@ -155,6 +157,47 @@ export const signOutController = async (req, res, next) => {
                 success: true,
                 status: 200,
                 code: 'LOGOUT_SUCCESSFULLY',
+            })
+        );
+    } catch (error) {
+        return next(error);
+    }
+};
+
+// verification otp controller ----------------------------->
+export const verificationOtpController = async (req, res, next) => {
+    try {
+        const user = await User.findById({ _id: req.user._id });
+
+        if (!user) {
+            throw new AppError('User not found!', {
+                success: false,
+                status: 404,
+                code: 'UNAUTHORIZED',
+            });
+        }
+
+        if (user.isVerified) {
+            throw new AppError('Account already verified!', {
+                success: false,
+                status: 400,
+                code: 'ALREADY_VERIFIED',
+            });
+        }
+
+        const otp = generateOtp(6);
+        const hashedOTP = generateHashOtp(otp);
+
+        user.verificationOtp = hashedOTP;
+        user.verificationOtpExpAt = Date.now() + 5 * 60 * 60 * 1000;
+
+        await user.save();
+
+        return res.status(200).json(
+            new AppResponse('Send verification otp.', {
+                success: true,
+                status: 200,
+                code: 'SEND_OTP',
             })
         );
     } catch (error) {
